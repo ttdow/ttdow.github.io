@@ -17,8 +17,18 @@
             embedded
             arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
             
-            <a-entity gltf-model="./assets/magnemite/scene.gltf" rotation="0 180 0" scale="0.15 0.15 0.15" gps-entity-place="longitude: 51.079906145114194; latitude: -114.13124015269405;" animation-mixer/>
-            <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
+            <a-entity gltf-model="./assets/magnemite/scene.gltf" 
+                      position="0 2 -10"
+                      rotation="0 180 0" 
+                      scale="0.01 0.01 0.01" 
+                      gps-entity-place="longitude: 51.079906145114194; latitude: -114.13124015269405;" 
+                      animation-mixer/>
+
+            <a-box color="red" 
+                   position="0 -2 -10" 
+                   rotation="0 45 45" 
+                   scale="2 2 2">
+            </a-box>
 
             <a-camera gps-camera rotation-reader></a-camera>
         </a-scene>

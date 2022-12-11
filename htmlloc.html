@@ -17,16 +17,21 @@
     </head>
 
     <body>
-        <a-scene vr-mode-ui="enabled: false"
-                 arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;">
+        <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;">
 
-            <a-text
+            <a-assets>
+                <a-asset-item id="duck" src="/Duck.gltf"></a-asset-item>
+            </a-assets>
+
+            <a-entity gltf-model="#duck"></a-entity>
+
+            <!-- <a-text
                 value="Test1"
                 color="red"
                 scale="100 100 100"
                 rotation="0 0 0"
                 position="-25 0 -10">
-            </a-text>
+            </a-text> -->
 
             <!-- <a-text
                 value="Test2"

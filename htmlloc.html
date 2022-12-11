@@ -11,15 +11,16 @@
         <!-- Animations 
         <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script> -->
 
-        <!-- Look-at Component
-        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script> -->
+        <!-- Look-at Component -->
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
         
     </head>
 
     <body>
-        <a-scene>
+        <a-scene vr-mode-ui="enabled: false">
             <a-text
                 value="Test1"
+                look-at="[camera]"
                 color="red"
                 scale="100 100 100"
                 rotation="0 0 45"
@@ -40,6 +41,8 @@
                 position="0 1 -10">
             </a-text> -->
         </a-scene>
+
+        <a-entity camera look-controls position="0 1.6 0"></a-entity>
     </body>
 
     <!--

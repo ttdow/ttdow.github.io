@@ -13,10 +13,14 @@
 
         <!-- Look-at Component 
         <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script> -->
+
+        <script src="./script.js"></script>
+        <link rel="stylesheet" type="text/css" href="./style.css">
         
     </head>
 
     <body>
+        <div class="centered instructions"></div>
         <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;">
 
             <!-- This was causing a loading screen???
@@ -25,7 +29,8 @@
             </a-assets> -->
 
             <a-entity gltf-model="./assets/ybot/ybot.gltf" position="1 0 -5" scale="3 3 3"/>
-            <a-entity gltf-model="./assets/myhead/myhead.gltf" position="0 0 -2" rotation="0 0 0" scale="10 10 10"/>
+            <!-- Too big maybe? 
+            <a-entity gltf-model="./assets/myhead/myhead.gltf" position="0 0 -2" rotation="0 0 0" scale="10 10 10"/> -->
 
             <a-text
                 value="Test1"
@@ -48,9 +53,14 @@
                 rotation="45 0 0"
                 position="0 1 -10">
             </a-text> -->
-        </a-scene>
+            
+            <a-camera gps-camera rotation-reader></a-camera>
 
-        <a-camera gps-camera rotation-reader></a-camera>
+        </a-scene>
+        <div class="centered">
+            <button data-action="change"></button>
+        </div>
+        
     </body>
 
     <!--

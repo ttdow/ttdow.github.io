@@ -1,31 +1,24 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>Canvas Tutorial</title>
-        <script type="application/javascript">
-            function draw() 
-            {
-                const canvas = document.getElementById("canvas");
-                if (canvas.getContext)
-                {
-                    const ctx = canvas.getContext("2d");
-                    ctx.fillStyle = "rgb(200, 0, 0)";
-                    ctx.fillRext(10, 10, 50, 50);
-                    
-                    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-                    ctx.fillRect(30, 30, 50, 50);
-                }
-            }
-        </script>
-        <!-- <style>
-            canvas 
-            {
-                border: 1px solid black;
-            }
-        </style> -->
-    </head>
-    <body onload="draw();">
-        <canvas id="canvas" width="150" height="150">Oh no this shouldn't be here.</canvas>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Canvas experiment</title>
+    <script type="application/javascript">
+      function draw() {
+        const canvas = document.getElementById("canvas");
+        if (canvas.getContext) {
+          const ctx = canvas.getContext("2d");
+
+          ctx.fillStyle = "rgb(200, 0, 0)";
+          ctx.fillRect(10, 10, 50, 50);
+
+          ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+          ctx.fillRect(30, 30, 50, 50);
+        }
+      }
+    </script>
+  </head>
+  <body onload="draw();">
+    <canvas id="canvas" width="150" height="150"></canvas>
+  </body>
 </html>

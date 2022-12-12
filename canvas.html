@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Canvas Tutorial</title>
+        <script>
+            function draw() 
+            {
+                const canvas = document.getElementById("tutorial");
+                if (canvas.getContext)
+                {
+                    const ctx = canvas.getContext("2d");
+                }
+            }
+        </script>
+        <style>
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body onload="draw();">
+        <canvas id="tutorial" width="150" height="150">Oh no this shouldn't be here.</canvas>
+    </body>
+</html>

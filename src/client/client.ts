@@ -2,6 +2,22 @@ import * as THREE from 'three'
 import { GUI } from 'dat.gui'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
+const constraints = {
+    audio: false,
+    video: { width: 1280, height: 720, facingMode: "environment" }
+}
+
+const video = document.getElementById( 'video' ) as HTMLVideoElement
+
+navigator.mediaDevices.getUserMedia(constraints).then((mediaStream) => {
+    video.srcObject = mediaStream
+    video.onloadedmetadata = () => {
+        video.play()
+    }
+}).catch((err) => {
+    console.error('${err.name}: ${err.message}')
+})
+
 const scene = new THREE.Scene()
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 1.0)
@@ -13,7 +29,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 )
-camera.position.set(0, 1, 1.0)
+camera.position.set(0, 1, 1)
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -21,14 +37,16 @@ renderer.setClearColor(0x87CEEB, 1.0)
 document.body.appendChild(renderer.domElement)
 
 const geometry = new THREE.BoxGeometry()
+const texture = new THREE.VideoTexture( video )
+const loader = new THREE.TextureLoader()
 const material = new THREE.MeshBasicMaterial({
-    color: 0x00ff00,
     wireframe: false,
+    map: texture,
 })
 
 const cube = new THREE.Mesh(geometry, material)
-cube.scale.set(200, 1, 200)
-cube.position.set(0, -75, -200)
+cube.scale.set(500, 500, 1)
+cube.position.set(0, 0, -150)
 scene.add(cube)
 
 let mixer: THREE.AnimationMixer

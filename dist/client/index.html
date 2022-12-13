@@ -41,6 +41,10 @@
                 const latitude = position.coords.latitude
                 const longitude = position.coords.longitude
                 const altitude = position.coords.altitude
+                const accuracy = position.coords.accuracy
+                const altAccuracy = position.coords.altitudeAccuracy
+                const heading = position.coords.heading
+                const speed = position.coords.speed
             
                 status.textContent = ''
                 //https://www.google.ca/maps/place/51%C2%B004'45.9%22N+114%C2%B007'57.6%22W/
@@ -59,7 +63,15 @@
 
                 document.write('Altitude: ')
                 document.write(altitude)
-                document.write(' meters')
+                document.write(' meters, ')
+
+                document.write('Speed: ')
+                document.write(speed)
+                document.write(' m/s, ')
+
+                document.write('Heading: ')
+                document.write(heading)
+                document.write(' degrees clockwise from due north')
                 
                 //document.write(<a href='https://www.openstreetmap.org/#map=18/${latitude}/${longitude}'> Click me </a>)
             } 

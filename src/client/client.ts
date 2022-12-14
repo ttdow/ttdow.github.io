@@ -1,10 +1,7 @@
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
-
-// EHE
-
-document.querySelector('button[data-action="change"')?.addEventListener('click', function() {
+document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
     setAction(animationActions[1])
 })
 

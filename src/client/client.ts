@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
+var qAngles = new THREE.Quaternion()
+
 function handleOrientation(event: any)
 {
     var alpha = event.alpha   // yaw
@@ -9,6 +11,16 @@ function handleOrientation(event: any)
 
     var text = document.getElementById('text') as HTMLElement
     text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
+
+    if (alpha != null && beta != null && gamma != null)
+    {
+        qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(beta, alpha, gamma))
+        camera.setRotationFromQuaternion(qAngles)
+    }
+    else
+    {
+        text.innerHTML = "Shit is goofed."
+    }
 }
 
 document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {

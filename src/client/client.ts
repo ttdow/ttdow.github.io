@@ -28,7 +28,7 @@ document.querySelector('button[data-action="dance"')?.addEventListener('click', 
     setAction(animationActions[1])
 })
 
-function onClick()
+function orient()
 {
     var text = document.getElementById('text') as HTMLElement
     if (typeof (DeviceOrientationEvent as any).requestPermission === 'function')
@@ -53,26 +53,40 @@ function onClick()
     }
 }
 
-document.querySelector('button[data-action="locate"')?.addEventListener('click', function() {
-    //geoFindMe()
-    onClick()
-})
+document.querySelector('button[data-action="locate"')?.addEventListener('click', orient)
 
-function geoFindMe()
+let id
+
+function locate()
 {
     const text = document.getElementById('text') as HTMLElement
 
     function success(position: { coords: { latitude: any; longitude: any; altitude: any; accuracy: any; altitudeAccuracy: any; heading: any; speed: any } })
     {
-        const latitude = position.coords.latitude
-        const longitude = position.coords.longitude
+        // Device coords
+        const latitude0 = position.coords.latitude
+        const longitude0 = position.coords.longitude
         const altitude = position.coords.altitude
         const accuracy = position.coords.accuracy
         const altAccuracy = position.coords.altitudeAccuracy
         const heading = position.coords.heading
         const speed = position.coords.speed
-    
-        text.innerHTML = 'Latitude: ' + latitude + ', Longitude: ' + longitude + ', Accuracy: ' + accuracy + ', Altitude: ' + altitude
+
+        // Destination coords
+        const latitude1 = 51.07680517824372
+        const longitude1 =  -114.12244255073777
+
+        // Haversine distance algorithm
+        const r = 6371 * 1000
+        const phi0 = latitude0 * Math.PI/180
+        const phi1 = latitude1 * Math.PI/180
+        const deltaPhi = (latitude1 - latitude0) * Math.PI/180
+        const deltaLambda = (longitude1 - longitude0) * Math.PI/180
+        const a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi0) * Math.cos(phi1) * Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2)
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+        const d = r * c
+
+        text.innerHTML = 'Latitude: ' + latitude0 + ', Longitude: ' + longitude0 + ', Distance: ' + d
 
         //https://www.google.ca/maps/place/51%C2%B004'45.9%22N+114%C2%B007'57.6%22W/
         //https://maps.google.com/?q=<lat>,<lng>
@@ -95,9 +109,11 @@ function geoFindMe()
     else
     {
         text.innerHTML = 'Locating...'
-        navigator.geolocation.getCurrentPosition(success, error)
+        id = navigator.geolocation.watchPosition(success, error)
     }
 }
+
+document.querySelector('button[data-action="locate"')?.addEventListener('click', locate)
 
 var camera = new THREE.PerspectiveCamera(
     60,

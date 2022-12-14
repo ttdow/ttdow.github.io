@@ -3,13 +3,11 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
 function handleOrientation(event: any)
 {
-    const absolute = event.absolute
-    const alpha = event.alpha   // yaw
-    const beta = event.beta     // pitch
-    const gamma = event.gamma   // roll
-
-    const text = document.getElementById('text') as HTMLElement
-
+    var alpha = event.alpha   // yaw
+    var beta = event.beta     // pitch
+    var gamma = event.gamma   // roll
+    
+    var text = document.getElementById('text') as HTMLElement
     text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
 }
 
@@ -17,16 +15,15 @@ document.querySelector('button[data-action="dance"')?.addEventListener('click', 
     setAction(animationActions[1])
 })
 
-document.querySelector('button[data-action="locate"')?.addEventListener('click', function() {
-   
-    //geoFindMe()
-
-    const text = document.getElementById('text') as HTMLElement
-   if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
-   {
-        (DeviceMotionEvent as any).requestPermission()
-        .then((state: any) => {
-            if (state === 'granted') 
+function onClick()
+{
+    var text = document.getElementById('text') as HTMLElement
+    if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
+    {
+        // Handle iOS13+ devices
+        (DeviceMotionEvent as any).requestPermission().then((state: string) => 
+        {
+            if (state === 'granted')
             {
                 window.addEventListener('devicemotion', handleOrientation)
             }
@@ -34,14 +31,18 @@ document.querySelector('button[data-action="locate"')?.addEventListener('click',
             {
                 text.innerHTML = 'Request to access the orientation was rejected.'
             }
-        })
-        .catch(text.innerHTML = 'Error.')
-   }
-   else
-   {
-        // Handle regular non iOS13+ devices
+        }).catch(text.innerHTML = 'Error.')
+    }
+    else
+    {
+        // Handle non-iOS13+ devices
         window.addEventListener('devicemotion', handleOrientation)
-   }
+    }
+}
+
+document.querySelector('button[data-action="locate"')?.addEventListener('click', function() {
+    //geoFindMe()
+    onClick()
 })
 
 function geoFindMe()

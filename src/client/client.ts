@@ -6,7 +6,7 @@ function handleOrientation(event: any)
     var alpha = event.alpha   // yaw
     var beta = event.beta     // pitch
     var gamma = event.gamma   // roll
-    
+
     var text = document.getElementById('text') as HTMLElement
     text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
 }
@@ -18,10 +18,10 @@ document.querySelector('button[data-action="dance"')?.addEventListener('click', 
 function onClick()
 {
     var text = document.getElementById('text') as HTMLElement
-    if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
+    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function')
     {
         // Handle iOS13+ devices
-        (DeviceMotionEvent as any).requestPermission().then((state: string) => 
+        (DeviceOrientationEvent as any).requestPermission().then((state: string) => 
         {
             if (state === 'granted')
             {
@@ -36,7 +36,7 @@ function onClick()
     else
     {
         // Handle non-iOS13+ devices
-        window.addEventListener('devicemotion', handleOrientation)
+        window.addEventListener('deviceorientation', handleOrientation)
     }
 }
 

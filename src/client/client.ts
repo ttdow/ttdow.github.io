@@ -2,52 +2,56 @@ import * as THREE from 'three'
 import { GUI } from 'dat.gui'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
-const constraints = {
-    audio: false,
-    video: { width: 1280, height: 720, facingMode: "environment" }
-}
-
-const video = document.getElementById( 'video' ) as HTMLVideoElement
-
-navigator.mediaDevices.getUserMedia(constraints).then((mediaStream) => {
-    video.srcObject = mediaStream
-    video.onloadedmetadata = () => {
-        video.play()
-    }
-}).catch((err) => {
-    console.error('${err.name}: ${err.message}')
-})
-
-const scene = new THREE.Scene()
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.0)
-scene.add(ambientLight)
-
-const camera = new THREE.PerspectiveCamera(
-    75,
+var camera = new THREE.PerspectiveCamera(
+    60,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
 )
 camera.position.set(0, 1, 1)
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setClearColor(0x87CEEB, 1.0)
-document.body.appendChild(renderer.domElement)
+var scene = new THREE.Scene()
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.0)
+scene.add(ambientLight)
+
+var video = document.getElementById( 'video' ) as HTMLVideoElement
+
+var bgTexture = new THREE.VideoTexture(video)
 
 const geometry = new THREE.BoxGeometry()
-const texture = new THREE.VideoTexture( video )
-const loader = new THREE.TextureLoader()
-const material = new THREE.MeshBasicMaterial({
+var bgMaterial = new THREE.MeshBasicMaterial({
     wireframe: false,
-    map: texture,
+    map: bgTexture,
 })
-
-const cube = new THREE.Mesh(geometry, material)
+var cube = new THREE.Mesh(geometry, bgMaterial)
 cube.scale.set(500, 500, 1)
 cube.position.set(0, 0, -150)
 scene.add(cube)
+
+if (navigator.mediaDevices)
+{
+    const constraints = { video: { width: 1280, height: 720, facingMode: "environment" } }
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) 
+    {
+        // Apply the stream to the video element used in the texture
+        video.srcObject = stream
+        video.play()
+    }).catch(function(err) 
+    {
+        console.error('Unable to access the camera', err)
+    })
+}
+else
+{
+    console.error('MediaDevices interface not available.')
+}
+
+const renderer = new THREE.WebGLRenderer( {antialias: true })
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setClearColor(0x87CEEB, 1.0)
+document.body.appendChild(renderer.domElement)
 
 let mixer: THREE.AnimationMixer
 let modelReady = false
@@ -147,7 +151,6 @@ function animate()
     requestAnimationFrame(animate)
 
     if (modelReady) mixer.update(clock.getDelta())
-
     render()
 }
 

@@ -1,10 +1,9 @@
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
-window.addEventListener('deviceorientation', handleOrientation)
-
 function handleOrientation(event: any)
 {
+    const absolute = event.absolute
     const alpha = event.alpha   // yaw
     const beta = event.beta     // pitch
     const gamma = event.gamma   // roll
@@ -18,7 +17,32 @@ document.querySelector('button[data-action="dance"')?.addEventListener('click', 
     setAction(animationActions[1])
 })
 
-document.querySelector('button[data-action="locate"')?.addEventListener('click', geoFindMe)
+document.querySelector('button[data-action="locate"')?.addEventListener('click', function() {
+   
+    //geoFindMe()
+
+    const text = document.getElementById('text') as HTMLElement
+   if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
+   {
+        (DeviceMotionEvent as any).requestPermission()
+        .then((state: string) => {
+            if (state === 'granted') 
+            {
+                window.addEventListener('deviemotion', handleOrientation)
+            }
+            else
+            {
+                text.innerHTML = 'Request to access the orientation was rejected.'
+            }
+        })
+        .catch(text.innerHTML = 'Error.')
+   }
+   else
+   {
+        // Handle regular non iOS13+ devices
+        window.addEventListener('devicemotion', handleOrientation)
+   }
+})
 
 function geoFindMe()
 {

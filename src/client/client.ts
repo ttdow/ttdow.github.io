@@ -10,11 +10,12 @@ function handleOrientation(event: any)
     var gamma = event.gamma   // roll
 
     var text = document.getElementById('text') as HTMLElement
-    text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
+    
 
     if (alpha != null && beta != null && gamma != null)
     {
-        qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, alpha, 0))
+        text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
+        qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, gamma, 0))
         camera.setRotationFromQuaternion(qAngles)
     }
     else

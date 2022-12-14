@@ -1,6 +1,57 @@
 import * as THREE from 'three'
-import { GUI } from 'dat.gui'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+
+/*
+window.onload = () => {
+    var button = document.querySelector('button[data-action]="change"') as HTMLElement
+}*/
+
+document.querySelector('button[data-action="change"')?.addEventListener('click', function() {
+    setAction(animationActions[1])
+})
+
+document.querySelector('button[data-action="locate"')?.addEventListener('click', geoFindMe)
+
+function geoFindMe()
+{
+    const text = document.getElementById('text') as HTMLElement
+
+    function success(position: { coords: { latitude: any; longitude: any; altitude: any; accuracy: any; altitudeAccuracy: any; heading: any; speed: any } })
+    {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        const altitude = position.coords.altitude
+        const accuracy = position.coords.accuracy
+        const altAccuracy = position.coords.altitudeAccuracy
+        const heading = position.coords.heading
+        const speed = position.coords.speed
+    
+        text.innerHTML = 'Latitude: ' + latitude + ', Longitude: ' + longitude + ', Accuracy: ' + accuracy + ', Altitude: ' + altitude
+
+        //https://www.google.ca/maps/place/51%C2%B004'45.9%22N+114%C2%B007'57.6%22W/
+        //https://maps.google.com/?q=<lat>,<lng>
+        //51.0794157 degrees, Longitude: -114.1326607 degrees 
+        //mapLink.href = 'https://maps.google.com/?q=${latitude},${longitude}'
+        //mapLink.textContent='Click here'
+        
+        //document.write(<a href='https://www.openstreetmap.org/#map=18/${latitude}/${longitude}'> Click me </a>)
+    } 
+
+    function error() 
+    {
+        text.innerHTML = 'Unable to retrieve your location'
+    }
+
+    if (!navigator.geolocation)
+    {
+        text.innerHTML = 'Geolocation is not supported by your browser'
+    }
+    else
+    {
+        text.innerHTML = 'Locating...'
+        navigator.geolocation.getCurrentPosition(success, error)
+    }
+}
 
 var camera = new THREE.PerspectiveCamera(
     60,
@@ -71,7 +122,7 @@ fbxLoader.load(
             (object as THREE.Object3D).animations[0]
         )
         animationActions.push(animationAction)
-        animationsFolder.add(animations, 'default')
+        //animationsFolder.add(animations, 'default')
         activeAction = animationActions[0]
 
         scene.add(object)
@@ -87,7 +138,7 @@ fbxLoader.load(
                     (object as THREE.Object3D).animations[0]
                 )
                 animationActions.push(animationAction)
-                animationsFolder.add(animations, 'samba')
+                //animationsFolder.add(animations, 'samba')
             },
             (xhr) => {
                 console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
@@ -139,10 +190,6 @@ const setAction = (toAction: THREE.AnimationAction) => {
         activeAction.play()
     }
 }
-
-const gui = new GUI()
-const animationsFolder = gui.addFolder('Animations')
-animationsFolder.open()
 
 const clock = new THREE.Clock()
 

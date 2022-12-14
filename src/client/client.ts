@@ -25,7 +25,7 @@ function onClick()
         {
             if (state === 'granted')
             {
-                window.addEventListener('devicemotion', handleOrientation)
+                window.addEventListener('deviceorientation', handleOrientation)
             }
             else
             {

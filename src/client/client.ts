@@ -53,7 +53,7 @@ function orient()
     }
 }
 
-document.querySelector('button[data-action="locate"')?.addEventListener('click', orient)
+document.querySelector('button[data-action="orient"')?.addEventListener('click', orient)
 
 let id
 

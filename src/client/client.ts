@@ -5,9 +5,9 @@ var qAngles = new THREE.Quaternion()
 
 function handleOrientation(event: any)
 {
-    var alpha = event.alpha   // yaw
-    var beta = event.beta     // pitch
-    var gamma = event.gamma   // roll
+    var alpha = THREE.MathUtils.degToRad(event.alpha) // yaw
+    var beta = THREE.MathUtils.degToRad(event.beta)   // pitch
+    var gamma = THREE.MathUtils.degToRad(event.gamma) // roll
 
     var text = document.getElementById('text') as HTMLElement
     

@@ -1,6 +1,19 @@
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
+window.addEventListener('deviceorientation', handleOrientation)
+
+function handleOrientation(event: any)
+{
+    const alpha = event.alpha   // yaw
+    const beta = event.beta     // pitch
+    const gamma = event.gamma   // roll
+
+    const text = document.getElementById('text') as HTMLElement
+
+    text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
+}
+
 document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
     setAction(animationActions[1])
 })

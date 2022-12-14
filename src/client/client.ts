@@ -14,7 +14,7 @@ function handleOrientation(event: any)
 
     if (alpha != null && beta != null && gamma != null)
     {
-        qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(beta, alpha, gamma))
+        qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, alpha, 0))
         camera.setRotationFromQuaternion(qAngles)
     }
     else

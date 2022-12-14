@@ -25,10 +25,10 @@ document.querySelector('button[data-action="locate"')?.addEventListener('click',
    if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
    {
         (DeviceMotionEvent as any).requestPermission()
-        .then((state: string) => {
+        .then((state: any) => {
             if (state === 'granted') 
             {
-                window.addEventListener('deviemotion', handleOrientation)
+                window.addEventListener('devicemotion', handleOrientation)
             }
             else
             {

@@ -150,7 +150,7 @@ var gpsMaterial = new THREE.MeshBasicMaterial({
 }) 
 var gpsMarker = new THREE.Mesh(geometry, gpsMaterial)
 gpsMarker.scale.set(1, 1, 1)
-gpsMarker.position.set(0, 1, -0.9)
+gpsMarker.position.set(0, 1, 0.9)
 scene.add(gpsMarker)
 
 if (navigator.mediaDevices)

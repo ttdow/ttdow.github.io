@@ -3,6 +3,11 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
 var qAngles = new THREE.Quaternion()
 
+let distance: number
+let maxDistance: number
+
+maxDistance = -1
+
 function handleOrientation(event: any)
 {
     var alpha = THREE.MathUtils.degToRad(event.alpha) // yaw
@@ -10,7 +15,6 @@ function handleOrientation(event: any)
     var gamma = THREE.MathUtils.degToRad(event.gamma) // roll
 
     var text = document.getElementById('text') as HTMLElement
-    
 
     if (alpha != null && beta != null && gamma != null)
     {
@@ -85,16 +89,14 @@ function locate()
         const a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi0) * Math.cos(phi1) * Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2)
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
         const d = r * c
+        distance = d
+
+        if (maxDistance < 0)
+        {
+            maxDistance = distance
+        }
 
         text.innerHTML = 'Latitude: ' + latitude0 + ', Longitude: ' + longitude0 + ', Distance: ' + d
-
-        //https://www.google.ca/maps/place/51%C2%B004'45.9%22N+114%C2%B007'57.6%22W/
-        //https://maps.google.com/?q=<lat>,<lng>
-        //51.0794157 degrees, Longitude: -114.1326607 degrees 
-        //mapLink.href = 'https://maps.google.com/?q=${latitude},${longitude}'
-        //mapLink.textContent='Click here'
-        
-        //document.write(<a href='https://www.openstreetmap.org/#map=18/${latitude}/${longitude}'> Click me </a>)
     } 
 
     function error() 
@@ -141,6 +143,15 @@ var cube = new THREE.Mesh(geometry, bgMaterial)
 cube.scale.set(500, 500, 1)
 cube.position.set(0, 0, -150)
 scene.add(cube)
+
+const gpsTexture = new THREE.TextureLoader().load("gps.png")
+var gpsMaterial = new THREE.MeshBasicMaterial({
+    map: gpsTexture
+}) 
+var gpsMarker = new THREE.Mesh(geometry, gpsMaterial)
+gpsMarker.scale.set(1, 1, 1)
+gpsMarker.position.set(0, 1, -0.9)
+scene.add(gpsMarker)
 
 if (navigator.mediaDevices)
 {
@@ -260,6 +271,23 @@ function animate()
     requestAnimationFrame(animate)
 
     if (modelReady) mixer.update(clock.getDelta())
+
+    var scaleFactor = 0
+
+    if (maxDistance > 0)
+    {
+        if (distance > 0)
+        {
+            scaleFactor = (1.0 / (distance / maxDistance)) - 0.5
+        }
+        else
+        {
+            scaleFactor = 1
+        }
+
+        gpsMarker.scale.set(scaleFactor, scaleFactor, scaleFactor)
+    }
+
     render()
 }
 

@@ -48,7 +48,7 @@ function handleMotion(event: any)
 
     if (accel != null && inter != null)
     {
-        text.innerHTML = "Acceleration: " + accel + ", Interval: " + inter
+        text.innerHTML = "Acceleration: (" + accel.x + ", " + accel.y + ", " + accel.z + "), Interval: " + inter
     }
     else
     {

@@ -64,13 +64,13 @@ function handleMotion(event: any)
     {
         // Kinematic equation:
         //  Pt = P0 + V0T + 0.5A0T^2
-        ptx = ptx + (0.5 * accel.x * inter * inter)
-        pty = pty + (0.5 * accel.y * inter * inter)
+        ptx = ptx + (0.5 * accel.z * inter * inter)
+        //pty = pty + (0.5 * accel.y * inter * inter)
 
         // Update camera position in the scene
-        camera.position.x = ptx
-        camera.position.y = 1
-        camera.position.z = pty + 1
+        //camera.position.x = ptx
+        //camera.position.y = 1
+        camera.position.z = ptx + 1
 
         //text.innerHTML = "Acceleration: (" + accel.x + ", " + accel.y + ", " + accel.z + "), Interval: " + inter
         text.innerHTML = "Relative Position: (" + ptx.toFixed(2) + ", " + pty.toFixed(2) + ")"

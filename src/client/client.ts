@@ -8,6 +8,10 @@ let maxDistance: number
 
 maxDistance = -1
 
+document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
+    setAction(animationActions[1])
+})
+
 function handleOrientation(event: any)
 {
     var text = document.getElementById('text') as HTMLElement
@@ -24,7 +28,7 @@ function handleOrientation(event: any)
 
         if (alpha != null && beta != null && gamma != null)
         {
-            text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
+            //text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
             qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, gamma, 0))
             camera.setRotationFromQuaternion(qAngles)
         }
@@ -34,10 +38,6 @@ function handleOrientation(event: any)
         }
     }
 }
-
-document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
-    setAction(animationActions[1])
-})
 
 function handleMotion(event: any)
 {
@@ -84,6 +84,8 @@ function motion()
 function orient()
 {
     var text = document.getElementById('text') as HTMLElement
+
+    // Gyroscope data
     if (typeof (DeviceOrientationEvent as any).requestPermission === 'function')
     {
         // Handle iOS13+ devices
@@ -104,9 +106,31 @@ function orient()
         // Handle non-iOS13+ devices
         window.addEventListener('deviceorientation', handleOrientation)
     }
+
+    // Accelerometer data
+    if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
+    {
+        // Handle iOS13+ devices
+        (DeviceOrientationEvent as any).requestPermission().then((state: string) =>
+        {
+            if (state === 'granted')
+            {
+                window.addEventListener('devicemotion', handleMotion)
+            }
+            else
+            {
+                text.innerHTML = 'Request to access the device motion data was rejected.'
+            }
+        }).catch(text.innerHTML = 'Error.')
+    }
+    else
+    {
+        // Handle non-iOS13+ devices
+        window.addEventListener('devicemotion', handleMotion)
+    }
 }
 
-document.querySelector('button[data-action="orient"')?.addEventListener('click', motion)
+document.querySelector('button[data-action="orient"')?.addEventListener('click', orient)
 
 let id
 

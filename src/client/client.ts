@@ -22,7 +22,17 @@ function handleOrientation(event: any)
 
     if (event.webkitCompassHeading) 
     {
-        //text.innerHTML = event.webkitCompassHeading
+        var heading = event.webkitCompassHeading
+
+        if (heading != null)
+        {
+            qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, heading, 0))
+            camera.setRotationFromQuaternion(qAngles)
+        }
+        else
+        {
+            text.innerHTML = "Shit is goofed."
+        }
     }
     else
     {
@@ -52,9 +62,15 @@ function handleMotion(event: any)
 
     if (accel != null && inter != null)
     {
-        // Pt = P0 + V0T + 0.5A0T^2
+        // Kinematic equation:
+        //  Pt = P0 + V0T + 0.5A0T^2
         ptx = ptx + (0.5 * accel.x * inter * inter)
         pty = pty + (0.5 * accel.y * inter * inter)
+
+        // Update camera position in the scene
+        camera.position.x = ptx
+        camera.position.y = 1
+        camera.position.z = pty + 1
 
         //text.innerHTML = "Acceleration: (" + accel.x + ", " + accel.y + ", " + accel.z + "), Interval: " + inter
         text.innerHTML = "Relative Position: (" + ptx.toFixed(2) + ", " + pty.toFixed(2) + ")"

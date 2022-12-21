@@ -5,8 +5,12 @@ var qAngles = new THREE.Quaternion()
 
 let distance: number
 let maxDistance: number
+let ptx: number
+let pty: number
 
 maxDistance = -1
+ptx = 0
+pty = 0
 
 document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
     setAction(animationActions[1])
@@ -48,7 +52,12 @@ function handleMotion(event: any)
 
     if (accel != null && inter != null)
     {
-        text.innerHTML = "Acceleration: (" + accel.x + ", " + accel.y + ", " + accel.z + "), Interval: " + inter
+        // Pt = P0 + V0T + 0.5A0T^2
+        ptx = ptx + (0.5 * accel.x * inter * inter)
+        pty = pty + (0.5 * accel.y * inter * inter)
+
+        //text.innerHTML = "Acceleration: (" + accel.x + ", " + accel.y + ", " + accel.z + "), Interval: " + inter
+        text.innerHTML = "Relative Position: (" + ptx.toFixed(2) + ", " + pty.toFixed(2) + ")"
     }
     else
     {

@@ -22,7 +22,7 @@ function handleOrientation(event: any)
 
     if (event.webkitCompassHeading) 
     {
-        var heading = event.webkitCompassHeading
+        var heading = THREE.MathUtils.degToRad(event.webkitCompassHeading)
 
         if (heading != null)
         {

@@ -18,7 +18,7 @@ function handleOrientation(event: any)
 
     if (event.webkitCompassHeading) 
     {
-        text.innerHTML = event.webkitCompassHeading
+        //text.innerHTML = event.webkitCompassHeading
     }
     else
     {

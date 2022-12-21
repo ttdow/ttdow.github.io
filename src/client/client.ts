@@ -10,21 +10,28 @@ maxDistance = -1
 
 function handleOrientation(event: any)
 {
-    var alpha = THREE.MathUtils.degToRad(event.alpha) // yaw
-    var beta = THREE.MathUtils.degToRad(event.beta)   // pitch
-    var gamma = THREE.MathUtils.degToRad(event.gamma) // roll
-
     var text = document.getElementById('text') as HTMLElement
 
-    if (alpha != null && beta != null && gamma != null)
+    if (event.webkitCompassHeading) 
     {
-        text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
-        qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, gamma, 0))
-        camera.setRotationFromQuaternion(qAngles)
+        text.innerHTML = event.webkitCompassHeading
     }
     else
     {
-        text.innerHTML = "Shit is goofed."
+        var alpha = THREE.MathUtils.degToRad(event.alpha) // yaw
+        var beta = THREE.MathUtils.degToRad(event.beta)   // pitch
+        var gamma = THREE.MathUtils.degToRad(event.gamma) // roll
+
+        if (alpha != null && beta != null && gamma != null)
+        {
+            text.innerHTML = "Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma
+            qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, gamma, 0))
+            camera.setRotationFromQuaternion(qAngles)
+        }
+        else
+        {
+            text.innerHTML = "Shit is goofed."
+        }
     }
 }
 

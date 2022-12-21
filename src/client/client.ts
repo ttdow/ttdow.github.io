@@ -8,11 +8,13 @@ let maxDistance: number
 let lat0: number
 let lon0: number
 let azi0: number
+let azi1: number
 
 maxDistance = -1
 lat0 = 201
 lon0 = 201
-azi0 = 500
+azi0 = -1
+azi1 = 0
 
 document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
     setAction(animationActions[1])
@@ -24,18 +26,19 @@ function handleOrientation(event: any)
 
     if (event.webkitCompassHeading) 
     {
-        if (azi0 > 499)
+        if (azi0 < 0)
         {
             azi0 = THREE.MathUtils.degToRad(event.webkitCompassHeading)
         }
 
         const heading = THREE.MathUtils.degToRad(event.webkitCompassHeading)
+        azi1 = heading
 
         if (heading != null)
         {
             qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, heading, 0))
             camera.setRotationFromQuaternion(qAngles)
-            text.innerHTML = "Azimuth: " + heading + " , Initial: " + azi0
+            //text.innerHTML = "Azimuth: " + heading + " , Initial: " + azi0
         }
         else
         {
@@ -139,12 +142,12 @@ function locate()
     function success(position: { coords: { latitude: any; longitude: any; altitude: any; accuracy: any; altitudeAccuracy: any; heading: any; speed: any } })
     {
         // Set initial coords
-        if (lat0 > 201)
+        if (lat0 > 200)
         {
             lat0 = position.coords.latitude
         }
 
-        if (lon0 > 201)
+        if (lon0 > 200)
         {
             lon0 = position.coords.longitude
         }
@@ -157,6 +160,16 @@ function locate()
         //const altAccuracy = position.coords.altitudeAccuracy
         //const heading = position.coords.heading
         //const speed = position.coords.speed
+
+        // Calculate delta lat and lon
+        const dLat = lat - lat0
+        const dLon = lon - lon0
+
+        // Latitude
+        const yDist = dLat * 111 * 1000
+
+        // Longitude
+        const xDist = dLon * 6371 * 1000 * Math.cos(lat * Math.PI/180) * 180/Math.PI * 111 * 1000
 
         // Destination coords - hardcoded for testing
         const latitude1 = 51.07680517824372
@@ -178,7 +191,7 @@ function locate()
             maxDistance = distance
         }
 
-        text.innerHTML = "Position: ("
+        text.innerHTML = "Position: (" + xDist.toFixed(2) + ", " + yDist.toFixed(2) + "), Azimuth: " + azi1
         //text.innerHTML = 'Latitude: ' + lat + ', Longitude: ' + lon + ', Distance: ' + d
     } 
 

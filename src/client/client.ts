@@ -39,6 +39,48 @@ document.querySelector('button[data-action="dance"')?.addEventListener('click', 
     setAction(animationActions[1])
 })
 
+function handleMotion(event: any)
+{
+    var text = document.getElementById('text') as HTMLElement
+
+    var accel = event.acceleration
+    var inter = event.interval
+
+    if (accel != null && inter != null)
+    {
+        text.innerHTML = "Acceleration: " + accel + ", Interval: " + inter
+    }
+    else
+    {
+        text.innerHTML = "Shit is goofed."
+    }
+}
+
+function motion()
+{
+    var text = document.getElementById('text') as HTMLElement
+    if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
+    {
+        // Handle iOS13+ devices
+        (DeviceOrientationEvent as any).requestPermission().then((state: string) =>
+        {
+            if (state === 'granted')
+            {
+                window.addEventListener('devicemotion', handleMotion)
+            }
+            else
+            {
+                text.innerHTML = 'Request to access the device motion data was rejected.'
+            }
+        }).catch(text.innerHTML = 'Error.')
+    }
+    else
+    {
+        // Handle non-iOS13+ devices
+        window.addEventListener('devicemotion', handleMotion)
+    }
+}
+
 function orient()
 {
     var text = document.getElementById('text') as HTMLElement
@@ -53,7 +95,7 @@ function orient()
             }
             else
             {
-                text.innerHTML = 'Request to access the orientation was rejected.'
+                text.innerHTML = 'Request to access the device orientation data was rejected.'
             }
         }).catch(text.innerHTML = 'Error.')
     }
@@ -64,7 +106,7 @@ function orient()
     }
 }
 
-document.querySelector('button[data-action="orient"')?.addEventListener('click', orient)
+document.querySelector('button[data-action="orient"')?.addEventListener('click', motion)
 
 let id
 

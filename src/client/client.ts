@@ -5,12 +5,14 @@ var qAngles = new THREE.Quaternion()
 
 let distance: number
 let maxDistance: number
-let ptx: number
-let pty: number
+let lat0: number
+let lon0: number
+let azi0: number
 
 maxDistance = -1
-ptx = 0
-pty = 0
+lat0 = 201
+lon0 = 201
+azi0 = 500
 
 document.querySelector('button[data-action="dance"')?.addEventListener('click', function() {
     setAction(animationActions[1])
@@ -22,12 +24,18 @@ function handleOrientation(event: any)
 
     if (event.webkitCompassHeading) 
     {
-        var heading = THREE.MathUtils.degToRad(event.webkitCompassHeading)
+        if (azi0 > 499)
+        {
+            azi0 = THREE.MathUtils.degToRad(event.webkitCompassHeading)
+        }
+
+        const heading = THREE.MathUtils.degToRad(event.webkitCompassHeading)
 
         if (heading != null)
         {
             qAngles = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, heading, 0))
             camera.setRotationFromQuaternion(qAngles)
+            text.innerHTML = "Azimuth: " + heading + " , Initial: " + azi0
         }
         else
         {
@@ -62,47 +70,12 @@ function handleMotion(event: any)
 
     if (accel != null && inter != null)
     {
-        // Kinematic equation:
-        //  Pt = P0 + V0T + 0.5A0T^2
-        ptx = ptx + (0.5 * accel.z * inter * inter)
-        //pty = pty + (0.5 * accel.y * inter * inter)
-
-        // Update camera position in the scene
-        //camera.position.x = ptx
-        //camera.position.y = 1
-        camera.position.z = ptx + 1
-
         //text.innerHTML = "Acceleration: (" + accel.x + ", " + accel.y + ", " + accel.z + "), Interval: " + inter
-        text.innerHTML = "Relative Position: (" + ptx.toFixed(2) + ", " + pty.toFixed(2) + ")"
+        //text.innerHTML = "Relative Position: (" + ptx.toFixed(2) + ", " + pty.toFixed(2) + ")"
     }
     else
     {
         text.innerHTML = "Shit is goofed."
-    }
-}
-
-function motion()
-{
-    var text = document.getElementById('text') as HTMLElement
-    if (typeof (DeviceMotionEvent as any).requestPermission === 'function')
-    {
-        // Handle iOS13+ devices
-        (DeviceOrientationEvent as any).requestPermission().then((state: string) =>
-        {
-            if (state === 'granted')
-            {
-                window.addEventListener('devicemotion', handleMotion)
-            }
-            else
-            {
-                text.innerHTML = 'Request to access the device motion data was rejected.'
-            }
-        }).catch(text.innerHTML = 'Error.')
-    }
-    else
-    {
-        // Handle non-iOS13+ devices
-        window.addEventListener('devicemotion', handleMotion)
     }
 }
 
@@ -165,25 +138,36 @@ function locate()
 
     function success(position: { coords: { latitude: any; longitude: any; altitude: any; accuracy: any; altitudeAccuracy: any; heading: any; speed: any } })
     {
-        // Device coords
-        const latitude0 = position.coords.latitude
-        const longitude0 = position.coords.longitude
-        const altitude = position.coords.altitude
-        const accuracy = position.coords.accuracy
-        const altAccuracy = position.coords.altitudeAccuracy
-        const heading = position.coords.heading
-        const speed = position.coords.speed
+        // Set initial coords
+        if (lat0 > 201)
+        {
+            lat0 = position.coords.latitude
+        }
 
-        // Destination coords
+        if (lon0 > 201)
+        {
+            lon0 = position.coords.longitude
+        }
+
+        // Current device coords
+        const lat = position.coords.latitude
+        const lon = position.coords.longitude
+        //const altitude = position.coords.altitude
+        //const accuracy = position.coords.accuracy
+        //const altAccuracy = position.coords.altitudeAccuracy
+        //const heading = position.coords.heading
+        //const speed = position.coords.speed
+
+        // Destination coords - hardcoded for testing
         const latitude1 = 51.07680517824372
         const longitude1 =  -114.12244255073777
 
         // Haversine distance algorithm
         const r = 6371 * 1000
-        const phi0 = latitude0 * Math.PI/180
+        const phi0 = lat * Math.PI/180
         const phi1 = latitude1 * Math.PI/180
-        const deltaPhi = (latitude1 - latitude0) * Math.PI/180
-        const deltaLambda = (longitude1 - longitude0) * Math.PI/180
+        const deltaPhi = (latitude1 - lat) * Math.PI/180
+        const deltaLambda = (longitude1 - lon) * Math.PI/180
         const a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi0) * Math.cos(phi1) * Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2)
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
         const d = r * c
@@ -194,7 +178,8 @@ function locate()
             maxDistance = distance
         }
 
-        text.innerHTML = 'Latitude: ' + latitude0 + ', Longitude: ' + longitude0 + ', Distance: ' + d
+        text.innerHTML = "Position: ("
+        //text.innerHTML = 'Latitude: ' + lat + ', Longitude: ' + lon + ', Distance: ' + d
     } 
 
     function error() 

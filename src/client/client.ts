@@ -169,7 +169,7 @@ function locate()
         const yDist = dLat * 111 * 1000
 
         // Longitude
-        const xDist = dLon * 6371 * 1000 * Math.cos(lat * Math.PI/180) * 180/Math.PI * 111 * 1000
+        const xDist = dLon * Math.cos(lat * Math.PI/180) * 111 * 1000
 
         // Destination coords - hardcoded for testing
         const latitude1 = 51.07680517824372

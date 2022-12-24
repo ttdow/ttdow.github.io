@@ -213,6 +213,39 @@ function locate()
 
 document.querySelector('button[data-action="locate"')?.addEventListener('click', locate)
 
+let photo0
+let photo1
+
+function takePhoto()
+{
+    let canvas = document.getElementById('canvas') as HTMLCanvasElement
+    let video = document.getElementById('video') as HTMLVideoElement
+    let picture0 = document.getElementById('photo0') as HTMLImageElement
+    let picture1 = document.getElementById('photo1') as HTMLImageElement
+    let text = document.getElementById('text') as HTMLElement
+
+    const width = 320
+    const height = (video.videoHeight / video.videoWidth) * width
+
+    canvas.setAttribute("width", width.toString())
+    canvas.setAttribute("height", height.toString())
+
+    const context = canvas.getContext("2d")
+    if (width && height && context)
+    {
+        context.drawImage(video, 0, 0, width, height)
+
+        const data = canvas.toDataURL("image/png")
+        //picture0.setAttribute("src", data.toString())
+
+        const im = context.getImageData(0, 0, width, height)
+        
+        text.innerHTML = im.data.toString()
+    }
+}
+
+document.querySelector('button[data-action="photo"')?.addEventListener('click', takePhoto)
+
 var camera = new THREE.PerspectiveCamera(
     60,
     window.innerWidth / window.innerHeight,

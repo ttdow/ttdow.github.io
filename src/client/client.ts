@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { ScaleImage } from './sift'
 
 var qAngles = new THREE.Quaternion()
 
@@ -213,15 +214,14 @@ function locate()
 
 document.querySelector('button[data-action="locate"')?.addEventListener('click', locate)
 
-let photo0
-let photo1
+let im0
+let im1: ImageData
+var counter = 0
 
 function takePhoto()
 {
     let canvas = document.getElementById('canvas') as HTMLCanvasElement
     let video = document.getElementById('video') as HTMLVideoElement
-    let picture0 = document.getElementById('photo0') as HTMLImageElement
-    let picture1 = document.getElementById('photo1') as HTMLImageElement
     let text = document.getElementById('text') as HTMLElement
 
     const width = 320
@@ -236,12 +236,28 @@ function takePhoto()
         context.drawImage(video, 0, 0, width, height)
 
         const data = canvas.toDataURL("image/png")
-        //picture0.setAttribute("src", data.toString())
 
-        const im = context.getImageData(0, 0, width, height)
-        
-        text.innerHTML = im.data.toString()
+        if (counter === 0)
+        {
+            im0 = context.getImageData(0, 0, width, height)
+            //text.innerHTML = im0.data.toString()
+            im1 = ScaleImage(im0, 2)
+        }
+        else if (counter === 1)
+        {
+            canvas.setAttribute("width", (2 * width).toString())
+            canvas.setAttribute("height", (2 * height).toString())
+            context.putImageData(im1, 0, 0)
+            im1 = context.getImageData(0, 0, width, height)
+            text.innerHTML = im1.data.toString()
+        }
+        else
+        {
+            text.innerHTML = "Counter > 1"
+        }
     }
+
+    counter = counter + 1
 }
 
 document.querySelector('button[data-action="photo"')?.addEventListener('click', takePhoto)

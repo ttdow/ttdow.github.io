@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
         <!-- Name -->
         <title>Testing Things</title>
@@ -11,25 +11,24 @@
         <!-- Link to your main style sheet -->
         <link rel="stylesheet" href=""style.css">
         <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" />
-         <link rel="stylesheet" href="track.css">
+        <link rel="stylesheet" href="track.css">
     </head>
 
-    <body>
+    <body class="bx--body p20">
         <!-- Import the component -->
-        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+        <!-- <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script> -->
 
         <!-- Support legacy browsers -->
-        <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+        <!-- <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script> -->
 
         <!-- Use it like any other HTML element 
         <model-viewer alt="Neil Armstrong's Spacesuit from the Smithsonian Digitization Programs Office and National Air and Space Museum" 
         src="shared-assets/models/NeilArmstrong.glb" ar environment-image="shared-assets/environments/moon_1k.hdr" 
         poster="shared-assets/models/NeilArmstrong.webp" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>-->
 
-        <model-viewer src="holoboard.glb" camera-controls auto-rotate ar ios-src="holoboard.usdz"></model-viewer>
+        <!-- <model-viewer src="holoboard.glb" camera-controls auto-rotate ar ios-src="holoboard.usdz"></model-viewer> -->
 
-        <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
-        <script ></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script> -->
 
         <!-- Camera -->
         <!-- <main id="camera"> -->
@@ -52,23 +51,22 @@
         <!-- </main> -->
 
         <!-- Camera script -->
-        <script src="app.js"></script>
+        <!-- <script src="app.js"></script> -->
 
         <div class="p20">
             Handtrack.js allows you prototype handtracking interactions in the browser in 10 lines of code.
-          </div>
-          <div class="mb10">
+        </div>
+        <div class="mb10">
             <button onclick="toggleVideo()" id="trackbutton" class="bx--btn bx--btn--secondary" type="button">
-              Toggle Video
+                Toggle Video
             </button>
             <div id="updatenote" class="updatenote mt10"> loading model ..</div>
-          </div>
-          <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+        </div>
+        <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+        <canvas id="canvas" class="border canvasbox"></canvas>
         
-          <canvas id="canvas" class="border canvasbox"></canvas>
-        
-          <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
-          <script src="app.js"></script>
+        <script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
+        <script src="app.js"></script>
     </body>
 </html> 

@@ -39,8 +39,6 @@ function toggleVideo() {
     }
 }
 
-
-
 function runDetection() {
     model.detect(video).then(predictions => {
         console.log("Predictions: ", predictions);

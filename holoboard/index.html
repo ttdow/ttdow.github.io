@@ -2,15 +2,14 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Testing Things</title>
+        <title>AR Demo</title>
 
-        <!-- Link to your main style sheet -->
-        <link rel="stylesheet" href=""style.css">
-        <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" />
-        <link rel="stylesheet" href="track.css">
+        <!-- <link rel="stylesheet" href=""style.css"> -->
+        <!-- <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" /> -->
+        <!-- <link rel="stylesheet" href="track.css"> -->
     </head>
 
     <body> <!-- class="bx--body p20"> -->
@@ -20,10 +19,9 @@
         <!-- Support legacy browsers -->
         <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
-        <model-viewer src="holoboard.glb" camera-controls ar ar-modes="scene-viewer webxr" ios-src="holoboard.usdz" alt="A 3D model of a letter board">
-            <div id="error" class="hide">AR is not supported on this device</div>
-            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
-                👋 Activate AR
+        <model-viewer src="holoboard.glb" camera-controls ar ar-modes="webxr" loading="eager" ios-src="holoboard.usdz" alt="A 3D model of a letter board">
+            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 32px; right: 32px; ">
+                Activate AR
             </button>
         </model-viewer>
 

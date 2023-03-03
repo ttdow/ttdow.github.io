@@ -3,9 +3,8 @@
     <head>
         <meta charset="utf-8">
         <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Name -->
         <title>Testing Things</title>
 
         <!-- Link to your main style sheet -->
@@ -21,7 +20,12 @@
         <!-- Support legacy browsers -->
         <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
-        <model-viewer src="holoboard.glb" camera-controls auto-rotate ar ios-src="holoboard.usdz"></model-viewer>
+        <model-viewer src="holoboard.glb" camera-controls ar ar-modes="scene-viewer webxr" ios-src="holoboard.usdz" alt="A 3D model of a letter board">
+            <div id="error" class="hide">AR is not supported on this device</div>
+            <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+                👋 Activate AR
+            </button>
+        </model-viewer>
 
         <!-- <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script> -->
 
